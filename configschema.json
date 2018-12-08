@@ -1,0 +1,9 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"enable": {"type": "boolean", "default": false},
+		"gqlOAuth":  {"type": "string", "default": "SITE_OAUTH_KEY"},
+		"title": {"type": "string", "default": "Game: {{game}} - Category: {{category}} - Players: {{players}}"}
+	}
+}

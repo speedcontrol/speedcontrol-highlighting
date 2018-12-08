@@ -1,0 +1,28 @@
+{
+  "name": "speedcontrol-highlighting",
+  "version": "1.0.0",
+  "author": "zoton2",
+  "dependencies": {
+    "async": "^2.4.1",
+    "clone": "^2.1.1",
+    "graphql-request": "^1.6.0",
+    "moment": "^2.18.1"
+  },
+  "license": "MIT",
+  "nodecg": {
+    "compatibleRange": "^1.0.0",
+    "bundleDependencies": {
+      "nodecg-speedcontrol": "^0.9.0"
+    },
+    "dashboardPanels": [
+      {
+        "name": "twitch-highlighting",
+        "title": "Twitch Highlighting",
+        "width": 2,
+        "file": "TwitchHighlighting.html",
+        "headerColor": "#008BB9",
+        "workspace": "Twitch Highlighting"
+      }
+    ]
+  }
+}
