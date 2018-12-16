@@ -179,10 +179,12 @@ function createHighlight(startTimestamp, endTimestamp, runData) {
 			highlightTitle = nodecg.bundleConfig.title;
 
 		var twitchLinks = [];
-		for (var i = 0; i < runData.players.length; i++) {
-			if (runData.players[i].twitch && runData.players[i].twitch.uri)
-				twitchLinks.push(runData.players[i].names.international+' '+runData.players[i].twitch.uri);
-		}
+		runData.teams.forEach((team) => {
+			team.players.forEach((player) => {
+				if (player.social.twitch)
+					twitchLinks.push(`${player.name} https://twitch.tv/${player.social.twitch}`);
+			});
+		});
 
 		// Fill in the wildcards in the title.
 		highlightTitle = highlightTitle
@@ -227,11 +229,11 @@ function createHighlight(startTimestamp, endTimestamp, runData) {
 // Goes through each team and members and makes a string to show the names correctly together.
 function formPlayerNamesString(runData) {
 	var namesArray = [];
-	var namesList = 'No Runner(s)';
+	var namesList = 'No Player(s)';
 	runData.teams.forEach(team => {
-		var teamMemberArray = [];
-		team.members.forEach(member => {teamMemberArray.push(member.names.international);});
-		namesArray.push(teamMemberArray.join(', '));
+		var teamPlayerArray = [];
+		team.player.forEach(player => {teamPlayerArray.push(player.name);});
+		namesArray.push(teamPlayerArray.join(', '));
 	});
 	if (namesArray.length) namesList = namesArray.join(' vs. ');
 	return namesList;
