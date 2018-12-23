@@ -9,7 +9,7 @@ $(() => {
 
 	// Setting up replicants.
 	var highlightRecording = nodecg.Replicant('twitchHighlightRecording');
-	var stopwatch = nodecg.Replicant('stopwatch', 'nodecg-speedcontrol');
+	var timer = nodecg.Replicant('timer', 'nodecg-speedcontrol');
 	var highlightHistory = nodecg.Replicant('twitchHighlightHistory');
 	var highlightProcessing = nodecg.Replicant('twitchHighlightProcessing');
 
@@ -28,11 +28,11 @@ $(() => {
 
 	highlightRecording.on('change', (newVal) => {
 		// Only change buttons if run is currently not ongoing.
-		if (stopwatch.value.state === 'stopped' || stopwatch.value.state === 'finished')
+		if (timer.value.state === 'stopped' || timer.value.state === 'finished')
 			toggleRecordingButtons(newVal)
 	});
 
-	stopwatch.on('change', (newVal, oldVal) => {
+	timer.on('change', (newVal, oldVal) => {
 		// Only turn off buttons if run is currently ongoing.
 		if (newVal.state === 'running' || newVal.state === 'paused') {
 			startHighlightButton.button({disabled:true});

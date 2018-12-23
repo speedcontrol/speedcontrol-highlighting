@@ -32,7 +32,7 @@ var highlightRunData = nodecg.Replicant('twitchHighlightRunData', {defaultValue:
 var highlightHistory = nodecg.Replicant('twitchHighlightHistory', {defaultValue:[]});
 var highlightHistoryRaw = nodecg.Replicant('twitchHighlightHistoryRaw', {defaultValue:[]});
 var highlightProcessing = nodecg.Replicant('twitchHighlightProcessing', {defaultValue:null, persistent:false});
-var stopwatch = nodecg.Replicant('stopwatch', 'nodecg-speedcontrol');
+var timer = nodecg.Replicant('timer', 'nodecg-speedcontrol');
 var runDataActiveRun = nodecg.Replicant('runDataActiveRun', 'nodecg-speedcontrol');
 
 function setUp() {
@@ -42,7 +42,7 @@ function setUp() {
 	// Listens for a message, either from the dashboard buttons or somewhere else.
 	nodecg.listenFor('startTwitchHighlight', () => {
 		// Cannot start a highlight if one is already being recorded, or if the timer is running/paused.
-		if (highlightRecording.value || stopwatch.value.state === 'running' || stopwatch.value.state === 'paused')
+		if (highlightRecording.value || timer.value.state === 'running' || timer.value.state === 'paused')
 			return;
 
 		highlightRecording.value = true;
@@ -53,7 +53,7 @@ function setUp() {
 	// Listens for a message, either from the dashboard buttons or somewhere else.
 	nodecg.listenFor('stopTwitchHighlight', (data, callback) => {
 		// Cannot stop a highlight if one isn't being recorded, or if the timer is running/paused.
-		if (!highlightRecording.value || stopwatch.value.state === 'running' || stopwatch.value.state === 'paused') {
+		if (!highlightRecording.value || timer.value.state === 'running' || timer.value.state === 'paused') {
 			if (callback) callback(true);
 			return;
 		}
@@ -77,7 +77,7 @@ function setUp() {
 	// Listens for a message, either from the dashboard buttons or somewhere else.
 	nodecg.listenFor('cancelTwitchHighlight', () => {
 		// Cannot cancel a highlight if one isn't being recorded, or if the timer is running/paused.
-		if (!highlightRecording.value || stopwatch.value.state === 'running' || stopwatch.value.state === 'paused')
+		if (!highlightRecording.value || timer.value.state === 'running' || timer.value.state === 'paused')
 			return;
 
 		highlightRecording.value = false;
@@ -85,7 +85,7 @@ function setUp() {
 	});
 
 	// Store the currently set run when the timer first starts if a highlight is being recorded, which we will use for the highlight info.
-	stopwatch.on('change', (newVal, oldVal) => {
+	timer.on('change', (newVal, oldVal) => {
 		if (highlightRecording.value && !highlightRunData.value && oldVal && oldVal.state === 'stopped' && newVal.state === 'running')
 			highlightRunData.value = clone(runDataActiveRun.value);
 	});
