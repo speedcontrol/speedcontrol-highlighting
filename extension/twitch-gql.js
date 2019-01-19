@@ -138,6 +138,7 @@ exports.createBookmark = function(streamID, desc, callback) {
 	var variables = {
 		createVideoBookmarkInput: {
 			broadcastID: streamID.toString(),
+			channelID: twitchChannelID.value.toString(),
 			description: desc,
 			medium: 'chat',
 			platform: 'web'
