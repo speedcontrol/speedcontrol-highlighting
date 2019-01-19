@@ -232,7 +232,7 @@ function formPlayerNamesString(runData) {
 	var namesList = 'No Player(s)';
 	runData.teams.forEach(team => {
 		var teamPlayerArray = [];
-		team.player.forEach(player => {teamPlayerArray.push(player.name);});
+		team.players.forEach(player => {teamPlayerArray.push(player.name);});
 		namesArray.push(teamPlayerArray.join(', '));
 	});
 	if (namesArray.length) namesList = namesArray.join(' vs. ');
