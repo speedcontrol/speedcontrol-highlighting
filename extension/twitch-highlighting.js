@@ -4,6 +4,7 @@ var moment = require('moment');
 var async = require('async');
 var gql = require('./twitch-gql');
 var nodecg = require('./utils/nodecg-api-context').get();
+var twitchAPIData = nodecg.Replicant('twitchAPIData', 'nodecg-speedcontrol');
 
 // Don't run the code if the feature is not enabled in the config.
 if (!nodecg.bundleConfig.enable)
@@ -15,14 +16,18 @@ if (!nodecg.bundleConfig.gqlOAuth || nodecg.bundleConfig.gqlOAuth === '') {
 	return;
 }
 
-nodecg.listenFor('twitchAPIReady', 'nodecg-speedcontrol', () => {
-	// Get the OAuth user's ID to check the OAuth actually works.
-	gql.getCurrentUserID((err, id) => {
-		if (err)
-			nodecg.log.warn('Twitch highlights will not be active due to an issue with your OAuth.');
-		else
-			setUp();
-	});
+let init = false;
+twitchAPIData.on('change', (newVal, oldVal) => {
+	if (!init && (!oldVal || oldVal.state !== 'on') && newVal.state === 'on') {
+		init = true;
+		// Get the OAuth user's ID to check the OAuth actually works.
+		gql.getCurrentUserID((err, id) => {
+			if (err)
+				nodecg.log.warn('Twitch highlights will not be active due to an issue with your OAuth.');
+			else
+				setUp();
+		});
+	}
 });
 
 // Setting up replicants.

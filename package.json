@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/speedcontrol/speedcontrol-highlighting#readme",
   "nodecg": {
-    "compatibleRange": "^1.0.0",
+    "compatibleRange": "^1.5.0",
     "bundleDependencies": {
-      "nodecg-speedcontrol": "^1.0.0"
+      "nodecg-speedcontrol": "^2.0.0"
     },
     "dashboardPanels": [
       {

@@ -1,13 +1,13 @@
 'use strict';
 var {GraphQLClient} = require('graphql-request');
 var nodecg = require('./utils/nodecg-api-context').get();
-var twitchChannelID = nodecg.Replicant('twitchChannelID', 'nodecg-speedcontrol');
+var twitchAPIData = nodecg.Replicant('twitchAPIData', 'nodecg-speedcontrol');
 
 // Create the GraphQL client with the OAuth from the config.
 var client = new GraphQLClient('https://api.twitch.tv/gql', {
 	headers: {
 		'Authorization': 'OAuth '+nodecg.bundleConfig.gqlOAuth,
-		'Client-ID': nodecg.extensions['nodecg-speedcontrol'].twitchClientID
+		'Client-ID': nodecg.bundleConfig.clientID,
 	}
 });
 
@@ -35,7 +35,7 @@ exports.getStreamInfo = function(callback) {
 		}
 	}`;
 	var variables = {
-		userId: twitchChannelID.value.toString()
+		userId: twitchAPIData.value.channelID.toString()
 	};
 
 	client.request(query, variables)
@@ -58,7 +58,7 @@ exports.getMostRecentBroadcastData = function(callback) {
 		}
 	}`;
 	var variables = {
-		userId: twitchChannelID.value.toString(),
+		userId: twitchAPIData.value.channelID.toString(),
 		userVideosFirst: 1,
 		userVideosTypes: 'ARCHIVE',
 		userVideosSort: 'TIME'
@@ -138,7 +138,7 @@ exports.createBookmark = function(streamID, desc, callback) {
 	var variables = {
 		createVideoBookmarkInput: {
 			broadcastID: streamID.toString(),
-			channelID: twitchChannelID.value.toString(),
+			channelID: twitchAPIData.value.channelID.toString(),
 			description: desc,
 			medium: 'chat',
 			platform: 'web'

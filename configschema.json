@@ -3,6 +3,7 @@
 	"type": "object",
 	"properties": {
 		"enable": {"type": "boolean", "default": false},
+		"clientID":  {"type": "string", "default": "CLIENT_ID"},
 		"gqlOAuth":  {"type": "string", "default": "SITE_OAUTH_KEY"},
 		"title": {"type": "string", "default": "Game: {{game}} - Category: {{category}} - Players: {{players}}"}
 	}
